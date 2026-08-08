@@ -5,7 +5,18 @@
 
 **Bill of Materials (BOM)** oficial del ecosistema `io.github.roony11-1`.
 
-Centraliza y gobierna las versiones de todas las librerías `roony-error` (y futuros módulos) para garantizar la compatibilidad entre ellas. Al usar este BOM, ya no necesitas especificar manualmente la versión de cada librería en tus proyectos.
+Centraliza y gobierna las versiones de todas las librerías del ecosistema (error, specification y futuros módulos) para garantizar la compatibilidad entre ellas. Al importar este BOM, ya no necesitas especificar manualmente la versión de cada librería en tus proyectos.
+
+## Versiones gestionadas
+
+| Artefacto | Versión |
+|---|---|
+| `roony-error-core` | 1.0.2 |
+| `roony-error-rest` | 1.0.2 |
+| `roony-error-spring` | 1.1.1 |
+| `roony-error-quarkus` | 1.2.0 *(publicada, sin soporte activo)* |
+| `roony-specification-core` | 1.0.0 |
+| `roony-specification-error-spring` | 1.0.0 |
 
 ## Cómo usar el BOM
 
@@ -19,7 +30,7 @@ En la sección `<dependencyManagement>` de tu proyecto Spring Boot o Quarkus, im
         <dependency>
             <groupId>io.github.roony11-1</groupId>
             <artifactId>roony-bom</artifactId>
-            <version>1.0.0</version>
+            <version>1.0.1</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -31,23 +42,26 @@ En la sección `<dependencyManagement>` de tu proyecto Spring Boot o Quarkus, im
 
 ```xml
 <dependencies>
-    <!-- Spring Boot -->
+    <!-- Manejo de errores -->
+    <dependency>
+        <groupId>io.github.roony11-1</groupId>
+        <artifactId>roony-error-core</artifactId>
+    </dependency>
     <dependency>
         <groupId>io.github.roony11-1</groupId>
         <artifactId>roony-error-spring</artifactId>
     </dependency>
 
-    <!-- Quarkus -->
+    <!-- Filtros dinámicos para JPA -->
     <dependency>
         <groupId>io.github.roony11-1</groupId>
-        <artifactId>roony-error-quarkus</artifactId>
+        <artifactId>roony-specification-core</artifactId>
     </dependency>
-
     <dependency>
         <groupId>io.github.roony11-1</groupId>
-        <artifactId>roony-error-core</artifactId>
+        <artifactId>roony-specification-error-spring</artifactId>
     </dependency>
 </dependencies>
 ```
 
-# Maven usará automáticamente las versiones definidas en el BOM que has importado.
+Maven usará automáticamente las versiones definidas en el BOM importado.
