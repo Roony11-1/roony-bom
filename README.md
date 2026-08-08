@@ -17,6 +17,7 @@ Centraliza y gobierna las versiones de todas las librerías del ecosistema (erro
 | `roony-error-quarkus` | 1.2.0 *(publicada, sin soporte activo)* |
 | `roony-specification-core` | 1.0.0 |
 | `roony-specification-error-spring` | 1.0.0 |
+| `roony-specification-spring` | 1.0.0 |
 
 ## Cómo usar el BOM
 
@@ -30,7 +31,7 @@ En la sección `<dependencyManagement>` de tu proyecto Spring Boot o Quarkus, im
         <dependency>
             <groupId>io.github.roony11-1</groupId>
             <artifactId>roony-bom</artifactId>
-            <version>1.0.1</version>
+            <version>1.1.0</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -60,6 +61,10 @@ En la sección `<dependencyManagement>` de tu proyecto Spring Boot o Quarkus, im
     <dependency>
         <groupId>io.github.roony11-1</groupId>
         <artifactId>roony-specification-error-spring</artifactId>
+    </dependency>
+    <dependency>
+        <groupId>io.github.roony11-1</groupId>
+        <artifactId>roony-specification-spring</artifactId>
     </dependency>
 </dependencies>
 ```
