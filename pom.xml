@@ -6,11 +6,11 @@
 
     <groupId>io.github.roony11-1</groupId>
     <artifactId>roony-bom</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
     <packaging>pom</packaging>
 
     <name>roony-bom</name>
-    <description>Bill of Materials para el ecosistema roony-error</description>
+    <description>Bill of Materials para el ecosistema roony (error y specification)</description>
     <url>https://github.com/roony11-1/roony-bom</url>
 
     <licenses>
@@ -58,6 +58,16 @@
             <dependency>
                 <groupId>io.github.roony11-1</groupId>
                 <artifactId>roony-specification-core</artifactId>
+                <version>1.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.roony11-1</groupId>
+                <artifactId>roony-specification-jpa</artifactId>
+                <version>1.0.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.roony11-1</groupId>
+                <artifactId>roony-specification-query-params</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <dependency>
@@ -68,6 +78,11 @@
             <dependency>
                 <groupId>io.github.roony11-1</groupId>
                 <artifactId>roony-specification-spring</artifactId>
+                <version>1.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.roony11-1</groupId>
+                <artifactId>roony-specification-r2dbc</artifactId>
                 <version>1.0.0</version>
             </dependency>
             <!-- futuros módulos -->
