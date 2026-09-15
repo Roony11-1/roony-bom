@@ -1,58 +1,53 @@
 # roony-bom
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.roony11-1/roony-bom?style=flat-square)](https://search.maven.org/artifact/io.github.roony11-1/roony-bom)
+Bill of Materials (BOM) para el ecosistema de librerías Java `io.github.roony11-1`.
 
-**Bill of Materials (BOM)** oficial del ecosistema `io.github.roony11-1`.
+`roony-bom` centraliza las versiones de las librerías Roony para permitir incorporarlas a un proyecto sin tener que declarar manualmente la versión de cada módulo.
 
-Centraliza y gobierna las versiones de todas las librerías del ecosistema (error, specification y futuros módulos) para garantizar la compatibilidad entre ellas. Al importar este BOM, ya no necesitas especificar manualmente la versión de cada librería en tus proyectos.
+## ¿Qué problema resuelve?
 
-> El BOM solamente gestiona **versiones**; no declara dependencias entre los módulos.
+Cuando un proyecto utiliza varios módulos de una misma familia de librerías, declarar sus versiones individualmente puede generar inconsistencias:
 
-## Versiones gestionadas
+```xml
+<dependency>
+    <groupId>io.github.roony11-1</groupId>
+    <artifactId>roony-specification-core</artifactId>
+    <version>1.1.0</version>
+</dependency>
 
-| Artefacto | Versión |
-|---|---|
-| `roony-error-core` | 1.0.2 |
-| `roony-error-rest` | 1.0.2 |
-| `roony-error-spring` | 1.1.1 |
-| `roony-error-quarkus` | 1.2.0 *(publicada, sin soporte activo)* |
-| `roony-specification-core` | 1.1.0 |
-| `roony-specification-jpa` | 1.0.0 |
-| `roony-specification-query-params` | 1.0.0 |
-| `roony-specification-error-spring` | 1.0.0 |
-| `roony-specification-spring` | 1.1.0 |
-| `roony-specification-r2dbc` | 1.0.0 |
-
-## Arquitectura de `roony-specification`
-
-Los filtros dinámicos se reparten en módulos con responsabilidades estrictamente separadas:
-
-```text
-HTTP/query params
-       ↓
-roony-specification-query-params  → QueryParamsFilterParser     (Map<String,String> → FilterConditions)
-       ↓
-roony-specification-core          → modelo y parsing            (FilterCondition, FilterConditions, FilterOperator, FilterParser, FilterException, ValueConverter)
-       ↓
-   ┌──────────┴───────────┐
-   ↓                      ↓
-roony-specification-jpa   roony-specification-r2dbc
-JpaPredicateBuilder        R2dbcCriteriaBuilder
-(FilterConditions → Predicate)   (FilterConditions → Criteria)
-   ↓                      ↓
-roony-specification-spring
-FilterSpecificationBuilder
-(FilterConditions → Specification<T>)
+<dependency>
+    <groupId>io.github.roony11-1</groupId>
+    <artifactId>roony-specification-jpa</artifactId>
+    <version>1.0.0</version>
+</dependency>
 ```
 
-Cada conversión vive en su módulo. En particular, `roony-specification-spring` **no depende** de `roony-specification-query-params`: el primero convierte `FilterConditions → Specification<T>`, mientras que la conversión `Map<String,String> → FilterConditions` pertenece únicamente a `roony-specification-query-params`.
+El BOM permite centralizar estas versiones:
 
-## Cómo usar el BOM
+```text
+roony-bom
+    │
+    ├── roony-error-*
+    │
+    └── roony-specification-*
+```
 
-### 1. Añade el BOM a tu `pom.xml`
+Una vez importado, las dependencias del ecosistema pueden declararse sin especificar su versión.
 
-En la sección `<dependencyManagement>` de tu proyecto Spring Boot o Quarkus, importa el BOM:
+## Características
+
+* Centralización de versiones de las librerías Roony.
+* Gestión de compatibilidad entre módulos.
+* Uso mediante Maven `dependencyManagement`.
+* Permite declarar las dependencias sin repetir versiones.
+* Compatible con proyectos Maven, incluyendo aplicaciones Spring Boot y Quarkus.
+* Publicado como artefacto Maven independiente.
+
+## Instalación
+
+### Maven
+
+Importa `roony-bom` dentro de la sección `dependencyManagement`:
 
 ```xml
 <dependencyManagement>
@@ -60,7 +55,7 @@ En la sección `<dependencyManagement>` de tu proyecto Spring Boot o Quarkus, im
         <dependency>
             <groupId>io.github.roony11-1</groupId>
             <artifactId>roony-bom</artifactId>
-            <version>1.2.0</version>
+            <version>1.1.0</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -68,46 +63,93 @@ En la sección `<dependencyManagement>` de tu proyecto Spring Boot o Quarkus, im
 </dependencyManagement>
 ```
 
-### 2. Declara las dependencias sin versión
+Una vez importado, Maven utilizará las versiones definidas por el BOM.
+
+## Declaración de dependencias
+
+Las librerías administradas por el BOM pueden declararse sin especificar su versión:
 
 ```xml
 <dependencies>
-    <!-- Manejo de errores -->
-    <dependency>
-        <groupId>io.github.roony11-1</groupId>
-        <artifactId>roony-error-core</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>io.github.roony11-1</groupId>
-        <artifactId>roony-error-spring</artifactId>
-    </dependency>
 
-    <!-- Filtros dinámicos para JPA -->
     <dependency>
         <groupId>io.github.roony11-1</groupId>
         <artifactId>roony-specification-core</artifactId>
     </dependency>
+
     <dependency>
         <groupId>io.github.roony11-1</groupId>
         <artifactId>roony-specification-jpa</artifactId>
     </dependency>
-    <dependency>
-        <groupId>io.github.roony11-1</groupId>
-        <artifactId>roony-specification-query-params</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>io.github.roony11-1</groupId>
-        <artifactId>roony-specification-spring</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>io.github.roony11-1</groupId>
-        <artifactId>roony-specification-r2dbc</artifactId>
-    </dependency>
-    <dependency>
-        <groupId>io.github.roony11-1</groupId>
-        <artifactId>roony-specification-error-spring</artifactId>
-    </dependency>
+
 </dependencies>
 ```
 
-Maven usará automáticamente las versiones definidas en el BOM importado.
+Maven resolverá automáticamente las versiones definidas por `roony-bom`.
+
+## Librerías administradas
+
+### Roony Specification
+
+Familia de librerías para la construcción y adaptación de filtros dinámicos.
+
+| Artefacto                          | Responsabilidad                                     |
+| ---------------------------------- | --------------------------------------------------- |
+| `roony-specification-core`         | Modelo y semántica de las condiciones de filtrado   |
+| `roony-specification-query-params` | Conversión de query parameters a `FilterConditions` |
+| `roony-specification-jpa`          | Adaptación a Jakarta Criteria API                   |
+| `roony-specification-spring`       | Integración con Spring Data JPA                     |
+
+### Roony Error
+
+Familia de librerías para el manejo de errores y sus integraciones.
+
+| Artefacto             | Responsabilidad                          |
+| --------------------- | ---------------------------------------- |
+| `roony-error-core`    | Modelo base de errores                   |
+| `roony-error-rest`    | Representación de errores para APIs REST |
+| `roony-error-spring`  | Integración con Spring                   |
+| `roony-error-quarkus` | Integración con Quarkus                  |
+
+## Arquitectura
+
+El BOM no contiene lógica de negocio ni código de ejecución.
+
+Su responsabilidad es exclusivamente gestionar las versiones de los módulos publicados:
+
+```text
+                         roony-bom
+                            │
+             ┌──────────────┴──────────────┐
+             │                             │
+             ▼                             ▼
+      Roony Specification             Roony Error
+             │                             │
+      ┌──────┼──────┐              ┌───────┼───────┐
+      ▼      ▼      ▼              ▼       ▼       ▼
+    core    jpa   spring         core     rest   spring
+```
+
+Esto permite que las aplicaciones consumidoras dependan de una versión coherente del ecosistema.
+
+## Versionado
+
+`roony-bom` utiliza versionado semántico.
+
+Cada versión del BOM define un conjunto concreto de versiones compatibles entre los módulos que administra.
+
+Para conocer las versiones administradas por una versión específica del BOM, consulta el `pom.xml` correspondiente.
+
+## Ecosistema
+
+Las librerías están publicadas bajo el grupo Maven:
+
+```text
+io.github.roony11-1
+```
+
+Los módulos pueden utilizarse individualmente o mediante `roony-bom` cuando se utilizan varios componentes del ecosistema.
+
+## Licencia
+
+Este proyecto está disponible bajo la licencia MIT.
