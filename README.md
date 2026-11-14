@@ -55,7 +55,7 @@ Importa `roony-bom` dentro de la sección `dependencyManagement`:
         <dependency>
             <groupId>io.github.roony11-1</groupId>
             <artifactId>roony-bom</artifactId>
-            <version>1.1.0</version>
+            <version>2.0.0</version>
             <type>pom</type>
             <scope>import</scope>
         </dependency>
@@ -104,12 +104,15 @@ Familia de librerías para la construcción y adaptación de filtros dinámicos.
 
 Familia de librerías para el manejo de errores y sus integraciones.
 
-| Artefacto             | Responsabilidad                          |
-| --------------------- | ---------------------------------------- |
-| `roony-error-core`    | Modelo base de errores                   |
-| `roony-error-rest`    | Representación de errores para APIs REST |
-| `roony-error-spring`  | Integración con Spring                   |
-| `roony-error-quarkus` | Integración con Quarkus                  |
+| Artefacto                       | Responsabilidad                                      |
+| ------------------------------- | ---------------------------------------------------- |
+| `roony-error-core`              | Modelo base de errores                               |
+| `roony-error-rest`              | Representación de errores para APIs REST             |
+| `roony-error-spring`            | Marcador legacy de migración (relocation)            |
+| `roony-error-spring-core`       | Integración base con Spring Boot / Spring MVC        |
+| `roony-error-spring-security`   | Integración con Spring Security (401/403)            |
+| `roony-error-spring-starter`    | Starter que agrega `roony-error-spring-core`         |
+| `roony-error-quarkus`           | Integración con Quarkus                              |
 
 ## Arquitectura
 
